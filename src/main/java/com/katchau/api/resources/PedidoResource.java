@@ -1,5 +1,6 @@
 package com.katchau.api.resources;
 
+import com.katchau.api.dtos.PedidoDTO;
 import com.katchau.api.models.Pedido;
 import com.katchau.api.services.PedidoService;
 import org.springframework.http.ResponseEntity;
@@ -24,8 +25,8 @@ public class PedidoResource {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Pedido> buscarPorId(@PathVariable Long id) {
-        Pedido pedido = pedidoService.buscarPorId(id);
+    public ResponseEntity<PedidoDTO> buscarPorId(@PathVariable Long id) {
+        PedidoDTO pedido = pedidoService.buscarPorId(id);
         return ResponseEntity.ok(pedido);
     }
 
@@ -36,14 +37,14 @@ public class PedidoResource {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Pedido> atualizar(@PathVariable Long id, @RequestBody Pedido pedido) {
-        Pedido pedidoAtualizado = pedidoService.atualizar(id, pedido);
+    public ResponseEntity<PedidoDTO> atualizar(@PathVariable Long id, @RequestBody Pedido pedido) {
+        PedidoDTO pedidoAtualizado = pedidoService.atualizar(id, pedido);
         return ResponseEntity.ok(pedidoAtualizado);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
-        pedidoService.deletar(id);
+        pedidoService.deletar(id);//a
         return ResponseEntity.noContent().build();
     }
 }

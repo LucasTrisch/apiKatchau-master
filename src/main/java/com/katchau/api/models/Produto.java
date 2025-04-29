@@ -26,7 +26,7 @@ public class Produto {
         this.preco = produtoDTO.getPreco();
     }
 
-    private String getNome() {
+    public String getNome() {
         return nome;
     }
 

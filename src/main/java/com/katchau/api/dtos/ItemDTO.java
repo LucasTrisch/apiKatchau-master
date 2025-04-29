@@ -37,4 +37,7 @@ public class ItemDTO {
     public void setSenha(String senha) {
         this.preco = preco;
     }
+
+    public void setQuantidade(Object quantidade) {
+    }
 }

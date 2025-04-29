@@ -27,4 +27,11 @@ public String getDescricao() {
 public void setDescricao(String descricao) {
     this.descricao = descricao;
 }
-}
+
+    public void setPreco(Double preco) {
+    }
+
+    public Double getPreco() {
+return preco;}
+    }
+

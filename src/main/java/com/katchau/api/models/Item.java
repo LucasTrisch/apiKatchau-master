@@ -49,4 +49,11 @@ public class Item {
     public void setPreco(String preco) {
         this.preco = preco;
     }
+
+    public Object getQuantidade() {
+        return null;
+    }
+
+    public void setQuantidade(Object quantidade) {
+    }
 }

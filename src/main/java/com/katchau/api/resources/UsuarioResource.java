@@ -14,7 +14,7 @@ public class UsuarioResource {
     private UsuarioService usuarioService;
 
     @GetMapping("{id}")
-    public ResponseEntity<UsuarioDTO> buscarUsuarioPorId(@PathVariable Long id) {
+    public ResponseEntity<UsuarioDTO> buscarUsuarioPorId(@PathVariable Long id) throws Throwable {
         Usuario usuario = usuarioService.buscarUsuarioPorId(id);
         return ResponseEntity.ok(usuarioService.converterUsuarioParaUsuarioDTO(usuario));
     }

@@ -5,60 +5,68 @@ import com.katchau.api.models.Usuario;
 import com.katchau.api.repositories.UsuarioRepository;
 import org.springframework.stereotype.Service;
 
-import static java.util.Objects.isNull;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UsuarioService {
 
-    private UsuarioRepository usuarioRespository;
+    private final UsuarioRepository usuarioRepository;
 
-    public UsuarioDTO salvarUsuario(UsuarioDTO usuarioDTO) {
-        Usuario usuario = new Usuario();
-        usuario.setNome(usuarioDTO.getNome());
-        usuario.setEmail(usuarioDTO.getEmail());
-        usuario.setSenha(usuarioDTO.getSenha());
-        return new UsuarioDTO();
-
+    public UsuarioService(UsuarioRepository usuarioRepository) {
+        this.usuarioRepository = usuarioRepository;
     }
 
-    public UsuarioDTO converterUsuarioParaUsuarioDTO(Usuario usuario) {
-        UsuarioDTO usuarioDTO = new UsuarioDTO();
-        usuarioDTO.setId(usuario.getId());
-        usuarioDTO.setNome(usuario.getNome());
-        usuarioDTO.setEmail(usuario.getEmail());
-        usuarioDTO.setSenha(usuario.getSenha());
-        return usuarioDTO;
-    }
-
-    public Usuario buscarUsuarioPorId(Long id) {
-        return usuarioRespository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Usuário não encontrado"));
-                        new IllegalArgumentException("Usuário não encontrado"));
-    }
-
-    public UsuarioDTO buscarUsuarioPorEmail(String email) {
-        return converterUsuarioParaUsuarioDTO(UsuarioRepository.findByEmail(email)
-                .orElseThrow(() ->
-                        new IllegalArgumentException("Usuário não encontrado")));
-    }
-
-    public UsuarioDTO atualizarUsuario(UsuarioDTO usuarioDTO) {
-        if (isNull(usuarioDTO.getId())) {
-            throw new IllegalArgumentException("campo Id não informado");
+    public List<UsuarioDTO> listarTodos() {
+        List<Usuario> usuarios = usuarioRepository.findAll();
+        List<UsuarioDTO> usuariosDTO = new ArrayList<>();
+        for (Usuario usuario : usuarios) {
+            usuariosDTO.add(toDTO(usuario));
         }
-        Usuario usuario = UsuarioRepository.findById(usuarioDTO.getId())
-        .orElseThrow(() ->
-                        new IllegalArgumentException("Usuário não encontrado"));
-
-        usuario = converterUsuarioDTOParaUsuario(usuarioDTO);
-        usuario = UsuarioRepository.save(usuario);
-
-        return converterUsuarioParaUsuarioDTO(usuario);
+        return usuariosDTO;
     }
 
-    public void deletarUsuario(Long id) {
-        usuarioRepository.deleteById(id);
+    public UsuarioDTO buscarPorId(Long id) {
+        Optional<Usuario> usuario = usuarioRepository.findById(id);
+        return usuario.map(this::toDTO).orElse(null);
+    }
+
+    public UsuarioDTO criar(UsuarioDTO usuarioDTO) {
+        Usuario usuario = toEntity(usuarioDTO);
+        Usuario novoUsuario = (Usuario) usuarioRepository.save(usuario);
+        return toDTO(novoUsuario);
+    }
+
+    public UsuarioDTO atualizar(Long id, UsuarioDTO usuarioDTO) {
+        if (usuarioRepository.existsById(id)) {
+            Usuario usuario = toEntity(usuarioDTO);
+            usuario.setId(id);
+            Usuario usuarioAtualizado = (Usuario) usuarioRepository.save(usuario);
+            return toDTO(usuarioAtualizado);
+        }
+        return null;
+    }
+
+    public void deletar(Long id) {
+        if (usuarioRepository.existsById(id)) {
+            usuarioRepository.deleteById(id);
+        }
+    }
+
+    private UsuarioDTO toDTO(Usuario usuario) {
+        UsuarioDTO dto = new UsuarioDTO();
+        dto.setId(usuario.getId());
+        dto.setNome(usuario.getNome());
+        dto.setEmail(usuario.getEmail());
+        return dto;
+    }
+
+    private Usuario toEntity(UsuarioDTO dto) {
+        Usuario usuario = new Usuario();
+        usuario.setId(dto.getId());
+        usuario.setNome(dto.getNome());
+        usuario.setEmail(dto.getEmail());
+        return usuario;
     }
 }
-
-
