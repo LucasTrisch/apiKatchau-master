@@ -14,6 +14,15 @@ public class UsuarioService {
 
     private final UsuarioRepository usuarioRepository;
 
+    public Optional<Usuario> buscarUsuarioPorId(Long id) throws Throwable {
+
+        if (!usuarioRepository.existsById(id)) {
+            throw new IllegalArgumentException("Usuário não encontrado com o ID: " + id);
+        }
+
+        return usuarioRepository.findById(id);
+    }
+
     public UsuarioService(UsuarioRepository usuarioRepository) {
         this.usuarioRepository = usuarioRepository;
     }
@@ -54,7 +63,7 @@ public class UsuarioService {
         }
     }
 
-    private UsuarioDTO toDTO(Usuario usuario) {
+    public UsuarioDTO toDTO(Optional<Usuario> usuario) {
         UsuarioDTO dto = new UsuarioDTO();
         dto.setId(usuario.getId());
         dto.setNome(usuario.getNome());
@@ -68,5 +77,14 @@ public class UsuarioService {
         usuario.setNome(dto.getNome());
         usuario.setEmail(dto.getEmail());
         return usuario;
+    }
+
+    public UsuarioDTO buscarUsuarioPorEmail(String email) {
+        Optional<Usuario> usuario = usuarioRepository.findByEmail(email);
+        return usuario.map(this::toDTO).orElse(null);
+    }
+
+    public UsuarioDTO salvarUsuario(UsuarioDTO usuarioDTO) {
+        return null;
     }
 }

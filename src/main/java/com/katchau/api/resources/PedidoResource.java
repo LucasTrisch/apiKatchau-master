@@ -19,8 +19,8 @@ public class PedidoResource {
     }
 
     @GetMapping
-    public ResponseEntity<List<Pedido>> listarTodos() {
-        List<Pedido> pedidos = pedidoService.listarTodos();
+    public ResponseEntity<List<PedidoDTO>> listarTodos() {
+        List<PedidoDTO> pedidos = pedidoService.listarTodos();
         return ResponseEntity.ok(pedidos);
     }
 
