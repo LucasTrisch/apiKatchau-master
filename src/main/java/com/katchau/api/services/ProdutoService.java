@@ -20,21 +20,22 @@ public class ProdutoService {
     }
 
     public ProdutoDTO buscarPorId(Long id) {
-        Produto produto = new Produto();
+        Produto produto = new Produto(); // Simulação
         return toDTO(produto);
     }
 
-    public ProdutoDTO criar(Produto produtoDTO) {
-        Produto produto = toEntity(produtoDTO);
-        return toDTO(produto);
+    public ProdutoDTO criar(Produto produto) {
+        Produto novoProduto = new Produto(); // Simulação
+        return toDTO(novoProduto);
     }
 
-    public ProdutoDTO atualizar(Long id, Produto produtoDTO) {
-        Produto produto = toEntity(produtoDTO);
-        return toDTO(produto);
+    public ProdutoDTO atualizar(Long id, Produto produto) {
+        Produto produtoAtualizado = new Produto(); // Simulação
+        return toDTO(produtoAtualizado);
     }
 
     public void deletar(Long id) {
+        // Simulação de exclusão
     }
 
     private ProdutoDTO toDTO(Produto produto) {
@@ -44,14 +45,4 @@ public class ProdutoService {
         dto.setPreco(produto.getPreco());
         return dto;
     }
-
-    private Produto toEntity(Produto dto) {
-        Produto produto = new Produto();
-        produto.setId(dto.getId());
-        produto.setNome(dto.getNome());
-        produto.setPreco(dto.getPreco());
-        return produto;
-    }
 }
-
-

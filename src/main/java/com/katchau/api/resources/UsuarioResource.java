@@ -1,12 +1,11 @@
 package com.katchau.api.resources;
+
 import com.katchau.api.dtos.UsuarioDTO;
-import com.katchau.api.models.Usuario;
 import com.katchau.api.services.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/usuarios")
@@ -15,32 +14,33 @@ public class UsuarioResource {
     @Autowired
     private UsuarioService usuarioService;
 
-    @GetMapping("{id}")
-    public ResponseEntity<UsuarioDTO> buscarUsuarioPorId(@PathVariable Long id) throws Throwable {
-        Optional<Usuario> usuario = usuarioService.buscarUsuarioPorId(id);
-        return ResponseEntity.ok(usuarioService.toDTO(usuario));
+    @GetMapping("/{id}")
+    public ResponseEntity<UsuarioDTO> buscarUsuarioPorId(@PathVariable Long id) {
+        UsuarioDTO usuarioDTO = usuarioService.buscarPorId(id);
+        return ResponseEntity.ok(usuarioDTO);
     }
 
     @GetMapping("/buscar")
     public ResponseEntity<UsuarioDTO> buscarUsuarioPorEmail(@RequestParam String email) {
-        UsuarioDTO usuarioDTO = usuarioService.buscarUsuarioPorEmail(email);
+        UsuarioDTO usuarioDTO = usuarioService.buscarPorEmail(email);
         return ResponseEntity.ok(usuarioDTO);
     }
 
-    @PostMapping()
+    @PostMapping
     public ResponseEntity<UsuarioDTO> criarUsuario(@RequestBody UsuarioDTO usuarioDTO) {
-        return ResponseEntity.ok(usuarioService.salvarUsuario(usuarioDTO));
+        UsuarioDTO novoUsuario = usuarioService.criar(usuarioDTO);
+        return ResponseEntity.status(201).body(novoUsuario);
     }
 
-    @PutMapping()
-    public ResponseEntity<UsuarioDTO> atualizarUsuario(@RequestBody UsuarioDTO usuarioDTO) {
-        return ResponseEntity.ok(usuarioService.atualizarUsuario(usuarioDTO));
+    @PutMapping("/{id}")
+    public ResponseEntity<UsuarioDTO> atualizarUsuario(@PathVariable Long id,@RequestBody UsuarioDTO usuarioDTO) {
+        UsuarioDTO usuarioAtualizado = usuarioService.atualizar(id, usuarioDTO);
+        return ResponseEntity.ok(usuarioAtualizado);
     }
 
-    @DeleteMapping()
-    public ResponseEntity<Void> deletarUsuario(@RequestBody UsuarioDTO usuarioDTO)  {
-        usuarioService.deletarUsuario(usuarioDTO.getId());
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deletarUsuario(@PathVariable Long id) {
+        usuarioService.deletar(id);
         return ResponseEntity.noContent().build();
     }
 }
-

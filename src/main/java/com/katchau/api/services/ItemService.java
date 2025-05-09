@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class ItenService {
+public class ItemService {
 
     public List<ItemDTO> listarTodos() {
         List<Item> itens = new ArrayList<>(); // Simulação de busca no banco

@@ -3,35 +3,30 @@ package com.katchau.api.dtos;
 public class ProdutoDTO {
     private Long id;
     private String nome;
-    private String descricao;
     private Double preco;
 
-public Long getId() {
-    return id;
-}
-public void setId(Long id) {
-    this.id = id;
-}
-public String getNome() {
-    return nome;
-}
+    // Getters e Setters
+    public Long getId() {
+        return id;
+    }
 
-public void setNome(String nome) {
-    this.nome = nome;
-}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-public String getDescricao() {
-    return descricao;
-}
+    public String getNome() {
+        return nome;
+    }
 
-public void setDescricao(String descricao) {
-    this.descricao = descricao;
-}
-
-    public void setPreco(Double preco) {
+    public void setNome(String nome) {
+        this.nome = nome;
     }
 
     public Double getPreco() {
-return preco;}
+        return preco;
     }
 
+    public void setPreco(Double preco) {
+        this.preco = preco;
+    }
+}
